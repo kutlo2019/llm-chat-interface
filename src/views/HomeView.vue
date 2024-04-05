@@ -4,9 +4,7 @@
   >
     <img class="w-56 mx-auto" src="../assets/images/logo.png" alt="" />
     <div class="text-center">
-      <h1 class="text-white mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
-        How may I help you?
-      </h1>
+      <h1 class="text-white mt-4 text-3xl font-bold tracking-tight">How may I help you?</h1>
     </div>
     <PromptInputComponent @prompt-submit="handlePrompt" />
   </main>

@@ -1,6 +1,7 @@
 import { firestore } from '@/config/firebase.config'
-import { collection, getDoc, getDocs, doc, setDoc, addDoc } from 'firebase/firestore'
-// {  doc, getDoc, addDoc, deleteDoc, where, setDoc } from "firebase/firestore"
+import { collection, getDoc, getDocs, doc, setDoc, addDoc, query, where } from 'firebase/firestore'
+import { auth } from '@/config/firebase.config'
+
 const fetchConversation = async (conversationID: string) => {
   const q = doc(collection(firestore, 'conversations'), conversationID)
   const messageSnapshot = await getDoc(q)
@@ -13,8 +14,8 @@ const fetchConversation = async (conversationID: string) => {
 }
 
 const fetchConversations = async (uid: string) => {
-  const conversations = []
-  const q = query(collection(firestore, 'conversations'), where('createdBy.id', '==', uid))
+  const conversations: any = []
+  const q = query(collection(firestore, 'conversations'), where('uid', '==', auth.currentUser?.uid))
   const querySnap = await getDocs(q)
 
   querySnap.forEach((doc) => {
@@ -23,7 +24,6 @@ const fetchConversations = async (uid: string) => {
       ...doc.data()
     })
   })
-
   return conversations
 }
 

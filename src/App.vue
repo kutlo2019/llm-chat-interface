@@ -1,7 +1,7 @@
 <template>
   <nav-bar-component />
   <div class="content-wrapper flex h-full w-full font-nunito">
-    <SideBarComponent v-show="showSideBar" class="w-48" />
+    <SideBarComponent v-show="showSideBar" class="w-64" />
     <router-view />
   </div>
 </template>

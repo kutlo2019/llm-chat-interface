@@ -13,6 +13,9 @@ const fetchResponse = async (messages: any) => {
   const response = await fetch(llmURL, {
     method: 'POST',
     mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(requestBody)
   })
   return response.json()

@@ -1,6 +1,6 @@
 <template>
   <main
-    class="relative h-[60vh] max-w-7xl mt-16 ml-16 text-gray-100 text-base flex flex-col gap-4 overflow-y-auto"
+    class="relative h-[60vh] mt-16 ml-16 text-gray-100 text-base flex flex-col gap-4 overflow-y-auto"
   >
     <div
       v-for="message in conversation.messages"
@@ -84,6 +84,7 @@ const submitPrompt = async (prompt: string) => {
   })
   const response = await fetchResponse(conversation.value.messages)
   conversation.value.messages.push(response.message)
+
   if (isUser.value !== '') {
     if (!conversation.value.uid) {
       conversation.value.uid = isUser
@@ -92,9 +93,7 @@ const submitPrompt = async (prompt: string) => {
         name: 'Chat',
         params: { prompt: conversationID }
       })
-      console
     } else {
-      console.log('id', conversationID)
       const newConversation = {
         id: conversationID,
         messages: conversation.value.messages
