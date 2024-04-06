@@ -8,9 +8,9 @@
         <li>
           <ul role="list" class="-mx-2 space-y-1 text-gray-200 px-8 flex flex-col gap-4">
             <li v-for="item in headings" :key="item.id">
-              <router-link :to="{ name: 'Chat', params: { prompt: item.id } }">
+              <a href="#" @click="handleRouting(item.id)">
                 {{ item.heading }}
-              </router-link>
+              </a>
             </li>
           </ul>
         </li>
@@ -23,6 +23,7 @@
 import { fetchConversations } from '../stores/messagesStore'
 import { ref, onMounted } from 'vue'
 import { auth } from '@/config/firebase.config'
+import { useRouter } from 'vue-router'
 
 const headings: any = ref([])
 
@@ -36,4 +37,10 @@ onMounted(async () => {
   })
   console.log(headings.value)
 })
+
+const router = useRouter()
+const handleRouting = (id: string) => {
+  router.push({ name: 'Chat', params: { prompt: id } })
+  router.go(1)
+}
 </script>

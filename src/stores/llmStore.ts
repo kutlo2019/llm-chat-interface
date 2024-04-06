@@ -3,9 +3,9 @@ const MODELS = ['llava', 'gemma:2b']
 
 const llmURL = 'https://148ftvxv-11434.uks1.devtunnels.ms/api/chat'
 
-const fetchResponse = async (messages: any) => {
+const fetchResponse = async (messages: any, model: number) => {
   const requestBody = {
-    model: MODELS[0],
+    model: MODELS[model],
     stream: false,
     messages: messages
   }

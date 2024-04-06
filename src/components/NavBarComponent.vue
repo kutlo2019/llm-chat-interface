@@ -67,5 +67,6 @@ onAuthStateChanged(auth, async (user) => {
 const handleLogout = async () => {
   await logOut()
   router.push({ name: 'Home' })
+  router.go(0)
 }
 </script>

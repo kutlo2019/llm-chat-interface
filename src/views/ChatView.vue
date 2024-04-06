@@ -1,6 +1,6 @@
 <template>
   <main
-    class="relative h-[60vh] mt-16 ml-16 text-gray-100 text-base flex flex-col gap-4 overflow-y-auto"
+    class="w-full relative h-[60vh] mt-16 ml-16 text-gray-100 text-base flex flex-col gap-4 overflow-y-auto"
   >
     <div
       v-for="message in conversation.messages"
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <PromptInputComponent @prompt-submit="submitPrompt" />
+    <PromptInputComponent @prompt-submit="submitPrompt" @image-selection="handleImage" />
   </main>
 </template>
 
@@ -43,6 +43,8 @@ const auth = getAuth()
 let conversation: any = ref({})
 let conversationID: any = null
 
+let base64Img: any
+
 onBeforeMount(async () => {
   conversationID = route.params.prompt
   if (conversationID.includes(' ') || conversationID.length < 10) {
@@ -59,9 +61,8 @@ onBeforeMount(async () => {
   }
 }),
   onMounted(async () => {
-    const response = await fetchResponse(conversation.value.messages)
+    const response = await fetchResponse(conversation.value.messages, 1)
     conversation.value.messages.push(response.message)
-    console.log('message 1', conversation.value.messages[0])
   })
 
 onAuthStateChanged(auth, async (user) => {
@@ -73,16 +74,31 @@ onAuthStateChanged(auth, async (user) => {
   }
 })
 
+const handleImage = (base64Img: any) => {
+  base64Img.value = base64Img
+}
+
 const submitPrompt = async (prompt: string) => {
   if (conversation.value === null) {
     conversation.value = { messages: [] }
   }
 
-  conversation.value.messages.push({
-    role: 'user',
-    content: prompt
-  })
-  const response = await fetchResponse(conversation.value.messages)
+  let response
+  if (base64Img.value) {
+    console.log('hello')
+    conversation.value.messages.push({
+      role: 'user',
+      content: prompt,
+      images: [base64Img.value]
+    })
+    response = await fetchResponse(conversation.value.messages, 0) //llava
+  } else {
+    conversation.value.messages.push({
+      role: 'user',
+      content: prompt
+    })
+    response = await fetchResponse(conversation.value.messages, 1) //gemma
+  }
   conversation.value.messages.push(response.message)
 
   if (isUser.value !== '') {
