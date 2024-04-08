@@ -43,7 +43,7 @@ const auth = getAuth()
 let conversation: any = ref({})
 let conversationID: any = null
 
-let base64Img: any
+let base64Img: any = ref('')
 
 onBeforeMount(async () => {
   conversationID = route.params.prompt
